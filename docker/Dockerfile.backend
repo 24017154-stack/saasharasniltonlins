@@ -1,0 +1,24 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json yarn.lock ./
+COPY apps/backend/package.json ./apps/backend/
+COPY packages/shared/package.json ./packages/shared/
+
+# Install dependencies
+RUN yarn install --frozen-lockfile
+
+# Copy source code
+COPY apps/backend ./apps/backend
+COPY packages/shared ./packages/shared
+
+# Build shared package
+RUN cd packages/shared && yarn build
+
+WORKDIR /app/apps/backend
+
+EXPOSE 3001
+
+CMD ["yarn", "dev"]

@@ -1,0 +1,39 @@
+{
+  "name": "haras-nilton-lins",
+  "version": "1.0.0",
+  "description": "Haras Nilton Lins SaaS Platform",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "docker-compose up -d postgres redis mailhog && concurrently \"yarn dev:backend\" \"yarn dev:web\"",
+    "dev:backend": "cd apps/backend && yarn dev",
+    "dev:web": "cd apps/web && yarn dev",
+    "build": "yarn build:shared && yarn build:backend && yarn build:web",
+    "build:shared": "cd packages/shared && yarn build",
+    "build:backend": "cd apps/backend && yarn build",
+    "build:web": "cd apps/web && yarn build",
+    "lint": "yarn lint:backend && yarn lint:web",
+    "lint:backend": "cd apps/backend && yarn lint",
+    "lint:web": "cd apps/web && yarn lint",
+    "typecheck": "yarn typecheck:backend && yarn typecheck:web",
+    "typecheck:backend": "cd apps/backend && yarn typecheck",
+    "typecheck:web": "cd apps/web && yarn typecheck",
+    "test": "yarn test:backend",
+    "test:backend": "cd apps/backend && yarn test",
+    "migrate": "cd apps/backend && yarn migrate",
+    "seed": "cd apps/backend && yarn seed",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "yarn": ">=1.22.0"
+  }
+}
